@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LmsDbMyHclModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CompanyID">
+    <Key>
+      <PropertyRef Name="CompanyID1" />
+    </Key>
+    <Property Name="CompanyID1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ContactName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ContactTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="RegionState" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PostalCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ProductCompanies" Relationship="Self.FK_ProductCompany_CompanyID" FromRole="CompanyID" ToRole="ProductCompany" />
+    <NavigationProperty Name="UsersInfoes" Relationship="Self.FK_UsersInfo_CompanyID" FromRole="CompanyID" ToRole="UsersInfo" />
+  </EntityType>
+  <EntityType Name="EmployeeMyhcl">
+    <Key>
+      <PropertyRef Name="EmpId" />
+    </Key>
+    <Property Name="EmpId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Band" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ManagerID" Type="Int32" />
+    <Property Name="DateOfJoining" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TotalLeaves" Type="Int32" />
+    <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="LMS_Transactions">
+    <Key>
+      <PropertyRef Name="TnsactionID" />
+    </Key>
+    <Property Name="TnsactionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AppliedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="LeaveType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="EmpID" Type="Int32" Nullable="false" />
+    <Property Name="LeaveOnDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Count" Type="Int32" />
+  </EntityType>
+  <EntityType Name="ProductCompany">
+    <Key>
+      <PropertyRef Name="ProductCompanyID" />
+    </Key>
+    <Property Name="ProductCompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductID" Type="Int32" Nullable="false" />
+    <Property Name="CompanyID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="CompanyID1" Relationship="Self.FK_ProductCompany_CompanyID" FromRole="ProductCompany" ToRole="CompanyID" />
+    <NavigationProperty Name="ProductInfo" Relationship="Self.FK_ProductCompany_ProductInfo" FromRole="ProductCompany" ToRole="ProductInfo" />
+  </EntityType>
+  <EntityType Name="ProductInfo">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="QuantityPerUnit" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UnitPrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ProductCompanies" Relationship="Self.FK_ProductCompany_ProductInfo" FromRole="ProductInfo" ToRole="ProductCompany" />
+  </EntityType>
+  <EntityType Name="UsersInfo">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserEmailID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CustomerId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="CompanyID" Relationship="Self.FK_UsersInfo_CompanyID" FromRole="UsersInfo" ToRole="CompanyID" />
+  </EntityType>
+  <Association Name="FK_ProductCompany_CompanyID">
+    <End Role="CompanyID" Type="Self.CompanyID" Multiplicity="1" />
+    <End Role="ProductCompany" Type="Self.ProductCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CompanyID">
+        <PropertyRef Name="CompanyID1" />
+      </Principal>
+      <Dependent Role="ProductCompany">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsersInfo_CompanyID">
+    <End Role="CompanyID" Type="Self.CompanyID" Multiplicity="1" />
+    <End Role="UsersInfo" Type="Self.UsersInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CompanyID">
+        <PropertyRef Name="CompanyID1" />
+      </Principal>
+      <Dependent Role="UsersInfo">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductCompany_ProductInfo">
+    <End Role="ProductInfo" Type="Self.ProductInfo" Multiplicity="1" />
+    <End Role="ProductCompany" Type="Self.ProductCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductInfo">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="ProductCompany">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LmsDbMyHclEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CompanyIDs" EntityType="Self.CompanyID" />
+    <EntitySet Name="EmployeeMyhcls" EntityType="Self.EmployeeMyhcl" />
+    <EntitySet Name="LMS_Transactions" EntityType="Self.LMS_Transactions" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="ProductCompanies" EntityType="Self.ProductCompany" />
+    <EntitySet Name="ProductInfoes" EntityType="Self.ProductInfo" />
+    <EntitySet Name="UsersInfoes" EntityType="Self.UsersInfo" />
+    <AssociationSet Name="FK_ProductCompany_CompanyID" Association="Self.FK_ProductCompany_CompanyID">
+      <End Role="CompanyID" EntitySet="CompanyIDs" />
+      <End Role="ProductCompany" EntitySet="ProductCompanies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsersInfo_CompanyID" Association="Self.FK_UsersInfo_CompanyID">
+      <End Role="CompanyID" EntitySet="CompanyIDs" />
+      <End Role="UsersInfo" EntitySet="UsersInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductCompany_ProductInfo" Association="Self.FK_ProductCompany_ProductInfo">
+      <End Role="ProductInfo" EntitySet="ProductInfoes" />
+      <End Role="ProductCompany" EntitySet="ProductCompanies" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

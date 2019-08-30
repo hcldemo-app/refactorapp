@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LmsDbMyHclModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CompanyID">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Name="CompanyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerCode" Type="nvarchar(max)" />
+    <Property Name="CompanyName" Type="nvarchar(max)" />
+    <Property Name="ContactName" Type="nvarchar(max)" />
+    <Property Name="ContactTitle" Type="nvarchar(max)" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="City" Type="nvarchar(max)" />
+    <Property Name="RegionState" Type="nvarchar(max)" />
+    <Property Name="PostalCode" Type="nvarchar(max)" />
+    <Property Name="Country" Type="nvarchar(max)" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="EmployeeMyhcl">
+    <Key>
+      <PropertyRef Name="EmpId" />
+    </Key>
+    <Property Name="EmpId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Band" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ManagerID" Type="int" />
+    <Property Name="DateOfJoining" Type="datetime" Nullable="false" />
+    <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TotalLeaves" Type="int" />
+    <Property Name="email" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="LMS_Transactions">
+    <Key>
+      <PropertyRef Name="TnsactionID" />
+    </Key>
+    <Property Name="TnsactionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AppliedDate" Type="datetime" Nullable="false" />
+    <Property Name="LeaveType" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="EmpID" Type="int" Nullable="false" />
+    <Property Name="LeaveOnDate" Type="datetime" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductName" Type="varchar" MaxLength="50" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="Count" Type="int" />
+  </EntityType>
+  <EntityType Name="ProductCompany">
+    <Key>
+      <PropertyRef Name="ProductCompanyID" />
+    </Key>
+    <Property Name="ProductCompanyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductID" Type="int" Nullable="false" />
+    <Property Name="CompanyID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProductInfo">
+    <Key>
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductName" Type="nvarchar(max)" />
+    <Property Name="QuantityPerUnit" Type="nvarchar(max)" />
+    <Property Name="UnitPrice" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="UsersInfo">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserEmailID" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ProductCompany_CompanyID">
+    <End Role="CompanyID" Type="Self.CompanyID" Multiplicity="1" />
+    <End Role="ProductCompany" Type="Self.ProductCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CompanyID">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="ProductCompany">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductCompany_ProductInfo">
+    <End Role="ProductInfo" Type="Self.ProductInfo" Multiplicity="1" />
+    <End Role="ProductCompany" Type="Self.ProductCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductInfo">
+        <PropertyRef Name="ProductID" />
+      </Principal>
+      <Dependent Role="ProductCompany">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsersInfo_CompanyID">
+    <End Role="CompanyID" Type="Self.CompanyID" Multiplicity="1" />
+    <End Role="UsersInfo" Type="Self.UsersInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CompanyID">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="UsersInfo">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LmsDbMyHclModelStoreContainer">
+    <EntitySet Name="CompanyID" EntityType="Self.CompanyID" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EmployeeMyhcl" EntityType="Self.EmployeeMyhcl" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LMS_Transactions" EntityType="Self.LMS_Transactions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductCompany" EntityType="Self.ProductCompany" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductInfo" EntityType="Self.ProductInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UsersInfo" EntityType="Self.UsersInfo" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ProductCompany_CompanyID" Association="Self.FK_ProductCompany_CompanyID">
+      <End Role="CompanyID" EntitySet="CompanyID" />
+      <End Role="ProductCompany" EntitySet="ProductCompany" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductCompany_ProductInfo" Association="Self.FK_ProductCompany_ProductInfo">
+      <End Role="ProductInfo" EntitySet="ProductInfo" />
+      <End Role="ProductCompany" EntitySet="ProductCompany" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsersInfo_CompanyID" Association="Self.FK_UsersInfo_CompanyID">
+      <End Role="CompanyID" EntitySet="CompanyID" />
+      <End Role="UsersInfo" EntitySet="UsersInfo" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
