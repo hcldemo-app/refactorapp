@@ -1,2 +1,2 @@
 # refactorapp
-Repository to contain applications to be refactored
+Monolith CRM based .Net application
